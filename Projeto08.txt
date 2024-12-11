@@ -1,0 +1,130 @@
+8) Lista de Contatos:
+Desenvolva uma lista de contatos onde o usuário possa adicionar, remover e editar informações de contato, como nome, telefone e e-mail.
+
+Aqui está um exemplo simples de código para um projeto de lista de contatos em React.js:
+
+import React, { useState } from 'react';
+
+function ListaDeContatos() {
+  const [contatos, setContatos] = useState([]);
+  const [nome, setNome] = useState('');
+  const [telefone, setTelefone] = useState('');
+
+  const adicionarContato = () => {
+    if (nome && telefone) {
+      setContatos([...contatos, { nome, telefone }]);
+      setNome('');
+      setTelefone('');
+    }
+  };
+
+  return (
+    <div>
+      <h2>Lista de Contatos</h2>
+      <div>
+        <input
+          type="text"
+          value={nome}
+          onChange={(e) => setNome(e.target.value)}
+          placeholder="Nome"
+        />
+        <input
+          type="text"
+          value={telefone}
+          onChange={(e) => setTelefone(e.target.value)}
+          placeholder="Telefone"
+        />
+        <button onClick={adicionarContato}>Adicionar Contato</button>
+      </div>
+      <ul>
+        {contatos.map((contato, index) => (
+          <li key={index}>
+            <strong>{contato.nome}:</strong> {contato.telefone}
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+export default ListaDeContatos;
+
+Este código renderiza um formulário onde o usuário pode inserir o nome e o telefone de um contato e adicionar esse contato à lista. Abaixo do formulário, a lista de contatos é exibida em formato de lista não ordenada (`ul`). Cada item da lista exibe o nome e o telefone do contato.
+
+1) Importações:
+
+import React, { useState } from 'react';
+
+Importa o React, necessário para escrever componentes React.
+Importa o useState do React, que é um Hook para adicionar estado a componentes funcionais.
+
+2) Definição do Componente ListaDeContatos:
+
+function ListaDeContatos() {
+
+Define uma função componente chamada ListaDeContatos.
+
+3) Estados Iniciais:
+
+const [contatos, setContatos] = useState([]);
+const [nome, setNome] = useState('');
+const [telefone, setTelefone] = useState('');
+
+Define três estados utilizando o useState:
+contatos: para armazenar a lista de contatos.
+nome e telefone: para armazenar temporariamente o nome e o telefone do novo contato a ser adicionado.
+
+4) Função adicionarContato para adicionar um novo contato à lista:
+
+const adicionarContato = () => {
+  if (nome && telefone) {
+    setContatos([...contatos, { nome, telefone }]);
+    setNome('');
+    setTelefone('');
+  }
+};
+
+Define uma função para adicionar um novo contato à lista.
+Verifica se tanto o nome quanto o telefone do novo contato não estão vazios.
+Se ambos os campos não estiverem vazios, adiciona o novo contato à lista de contatos (contatos), limpando os campos de entrada (nome e telefone) em seguida.
+
+5) Renderização do Componente:
+
+return (
+  <div>
+    {/* Elementos de interface da lista de contatos */}
+  </div>
+);
+
+Retorna o JSX que representa o componente ListaDeContatos.
+
+6)Elementos de Interface do Usuário:
+
+<input
+  type="text"
+  value={nome}
+  onChange={(e) => setNome(e.target.value)}
+  placeholder="Nome"
+/>
+<input
+  type="text"
+  value={telefone}
+  onChange={(e) => setTelefone(e.target.value)}
+  placeholder="Telefone"
+/>
+<button onClick={adicionarContato}>Adicionar Contato</button>
+<ul>
+  {/* Mapeia cada contato na lista de contatos e renderiza um <li> para cada um */}
+</ul>
+
+Renderiza dois campos de entrada de texto para o nome e o telefone do novo contato, respectivamente.
+Utiliza o estado nome e telefone para controlar o valor dos campos de entrada e atualizá-los conforme o usuário digita.
+Renderiza um botão "Adicionar Contato" que, quando clicado, chama a função adicionarContato para adicionar o novo contato à lista.
+Renderiza uma lista não ordenada (`<ul>`) que contém os contatos existentes.
+Mapeia cada contato na lista de contatos (`contatos`) e renderiza um elemento de lista (`li>`) para cada um deles, exibindo o nome e o telefone do contato.
+
+7) Exportação do Componente:
+
+export default ListaDeContatos;
+
+Exporta o componente ListaDeContatos para que ele possa ser importado e usado em outros arquivos.

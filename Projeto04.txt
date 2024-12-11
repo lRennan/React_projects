@@ -1,0 +1,174 @@
+4) Conversor de Moedas:
+Crie um conversor de moedas que permita ao usuário converter valores entre diferentes moedas, utilizando uma API de conversão de moedas.
+
+Este código renderiza um conversor de moedas onde o usuário pode selecionar a moeda de origem, a moeda de destino, inserir a quantidade de dinheiro a ser convertida e clicar no botão "Converter" para ver o resultado da conversão.
+
+Aqui está um exemplo simples de código para um projeto de conversor de moedas em React.js, utilizando a API gratuita Exchange Rates API (https://exchangeratesapi.io/):
+
+import React, { useState, useEffect } from 'react';
+
+function ConversorDeMoedas() {
+  const [moedas, setMoedas] = useState([]);
+  const [deMoeda, setDeMoeda] = useState('USD');
+  const [paraMoeda, setParaMoeda] = useState('EUR');
+  const [quantidade, setQuantidade] = useState(1);
+  const [resultado, setResultado] = useState(0);
+
+  useEffect(() => {
+    fetch('https://api.exchangeratesapi.io/latest')
+      .then(response => response.json())
+      .then(data => {
+        setMoedas([...Object.keys(data.rates)]);
+      })
+      .catch(error => console.error('Erro ao buscar moedas:', error));
+  }, []);
+
+  const converterMoeda = () => {
+    fetch(`https://api.exchangeratesapi.io/latest?base=${deMoeda}&symbols=${paraMoeda}`)
+      .then(response => response.json())
+      .then(data => {
+        const taxaDeCambio = data.rates[paraMoeda];
+        setResultado(quantidade * taxaDeCambio);
+      })
+      .catch(error => console.error('Erro ao converter moeda:', error));
+  };
+
+  return (
+    <div>
+      <h2>Conversor de Moedas</h2>
+      <div>
+        <label>De:</label>
+        <select value={deMoeda} onChange={(e) => setDeMoeda(e.target.value)}>
+          {moedas.map(moeda => (
+            <option key={moeda} value={moeda}>{moeda}</option>
+          ))}
+        </select>
+        <input type="number" value={quantidade} onChange={(e) => setQuantidade(e.target.value)} />
+      </div>
+      <div>
+        <label>Para:</label>
+        <select value={paraMoeda} onChange={(e) => setParaMoeda(e.target.value)}>
+          {moedas.map(moeda => (
+            <option key={moeda} value={moeda}>{moeda}</option>
+          ))}
+        </select>
+        <button onClick={converterMoeda}>Converter</button>
+      </div>
+      <div>
+        <h3>Resultado:</h3>
+        <p>{resultado}</p>
+      </div>
+    </div>
+  );
+}
+
+export default ConversorDeMoedas;
+
+- Para usar este componente em sua aplicação, basta importá-lo onde desejar e incluí-lo em sua estrutura de renderização. Por exemplo:
+
+import React from 'react';
+import ConversorDeMoedas from './ConversorDeMoedas';
+
+function App() {
+  return (
+    <div className="App">
+      <ConversorDeMoedas />
+    </div>
+  );
+}
+
+export default App;
+
+1) Importações:
+
+import React, { useState, useEffect } from 'react';
+
+- Importa o React, necessário para escrever componentes React.
+- Importa o useState e o useEffect do React, que são Hooks para adicionar estado e efeitos a componentes funcionais, respectivamente.
+
+2) Definição do Componente ConversorDeMoedas:
+
+function ConversorDeMoedas() {
+
+- Define uma função componente chamada ConversorDeMoedas.
+
+3) Estado Inicial:
+
+const [moedas, setMoedas] = useState([]);
+const [deMoeda, setDeMoeda] = useState('USD');
+const [paraMoeda, setParaMoeda] = useState('EUR');
+const [quantidade, setQuantidade] = useState(1);
+const [resultado, setResultado] = useState(0);
+
+-Define vários estados utilizando o useState:
+-moedas: para armazenar a lista de moedas disponíveis.
+-deMoeda e paraMoeda: para armazenar as moedas de origem e de destino -selecionadas pelo usuário.
+-quantidade: para armazenar a quantidade de dinheiro a ser convertida.
+-resultado: para armazenar o resultado da conversão.
+
+4) Hook useEffect para buscar as moedas disponíveis:
+
+useEffect(() => {
+  fetch('https://api.exchangeratesapi.io/latest')
+    .then(response => response.json())
+    .then(data => {
+      setMoedas([...Object.keys(data.rates)]);
+    })
+    .catch(error => console.error('Erro ao buscar moedas:', error));
+}, []);
+- Utiliza o useEffect para executar um efeito sempre que o componente for montado.
+- Dentro do useEffect, faz uma requisição à API https://api.exchangeratesapi.io/latest para obter as últimas taxas de câmbio.
+- Quando os dados são recebidos, extrai as moedas disponíveis a partir das chaves do objeto data.rates e as armazena no estado moedas.
+- A lista de moedas é atualizada apenas uma vez, quando o componente é montado, pois o array de dependências está vazio ([]).
+
+5) Função converterMoeda para realizar a conversão:
+
+const converterMoeda = () => {
+  fetch(`https://api.exchangeratesapi.io/latest?base=${deMoeda}&symbols=${paraMoeda}`)
+    .then(response => response.json())
+    .then(data => {
+      const taxaDeCambio = data.rates[paraMoeda];
+      setResultado(quantidade * taxaDeCambio);
+    })
+    .catch(error => console.error('Erro ao converter moeda:', error));
+};
+
+- Define uma função para realizar a conversão de moedas.
+- Faz uma requisição à API https://api.exchangeratesapi.io/latest especificando a moeda de origem (base) e a moeda de destino (symbols).
+- Quando os dados são recebidos, extrai a taxa de câmbio para a moeda de destino e calcula o resultado da conversão multiplicando a quantidade de dinheiro  pelo valor da taxa de câmbio.
+O resultado é armazenado no estado resultado.
+
+6) Renderização do Componente:
+return (
+  <div>
+    {/* ... */}
+  </div>
+);
+
+Retorna o JSX que representa o componente ConversorDeMoedas.
+
+7) Elementos de Interface do Usuário:
+
+<div>
+  <h2>Conversor de Moedas</h2>
+  <div>
+    {/* Elementos para selecionar a moeda de origem e inserir a quantidade */}
+  </div>
+  <div>
+    {/* Elementos para selecionar a moeda de destino e o botão de conversão */}
+  </div>
+  <div>
+    {/* Exibe o resultado da conversão */}
+  </div>
+</div>
+- Renderiza um cabeçalho <h2> com o texto "Conversor de Moedas".
+- Renderiza elementos de interface do usuário para selecionar as moedas de origem e de destino, inserir a quantidade de dinheiro e realizar a conversão.
+- -Exibe o resultado da conversão.
+
+8) Exportação do Componente:
+
+export default ConversorDeMoedas;
+
+Exporta o componente ConversorDeMoedas para que ele possa ser importado e usado em outros arquivos.
+
+

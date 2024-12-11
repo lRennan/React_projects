@@ -1,0 +1,167 @@
+7) Busca de Filmes:
+Crie uma aplicação que permita ao usuário buscar filmes por título e exibir os resultados em uma lista.
+
+Aqui está um exemplo simples de código para um projeto de busca de filmes em React.js, utilizando a API gratuita OMDb (Open Movie Database):
+
+import React, { useState } from 'react';
+
+function BuscaDeFilmes() {
+  const [query, setQuery] = useState('');
+  const [filmes, setFilmes] = useState([]);
+  const [erro, setErro] = useState('');
+
+  const buscarFilmes = async () => {
+    try {
+      const response = await fetch(`http://www.omdbapi.com/?s=${query}&apikey=YOUR_API_KEY`);
+      const data = await response.json();
+      if (data.Response === 'True') {
+        setFilmes(data.Search);
+        setErro('');
+      } else {
+        setFilmes([]);
+        setErro(data.Error);
+      }
+    } catch (error) {
+      console.error('Erro ao buscar filmes:', error);
+      setErro('Erro ao buscar filmes. Por favor, tente novamente mais tarde.');
+    }
+  };
+
+  const handleChange = (event) => {
+    setQuery(event.target.value);
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    buscarFilmes();
+  };
+
+  return (
+    <div>
+      <h2>Busca de Filmes</h2>
+      <form onSubmit={handleSubmit}>
+        <input
+          type="text"
+          value={query}
+          onChange={handleChange}
+          placeholder="Digite o nome do filme"
+        />
+        <button type="submit">Buscar</button>
+      </form>
+      {erro && <p>{erro}</p>}
+      <div>
+        {filmes.map((filme) => (
+          <div key={filme.imdbID}>
+            <h3>{filme.Title}</h3>
+            <img src={filme.Poster} alt={filme.Title} />
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+export default BuscaDeFilmes;
+
+Certifique-se de substituir 'YOUR_API_KEY' na URL da API pelo seu próprio API key da OMDb.
+
+Este código renderiza um campo de entrada de texto onde o usuário pode inserir o nome de um filme e clicar em um botão para buscar filmes correspondentes. Os filmes encontrados são exibidos abaixo do campo de busca, juntamente com seus pôsteres. Se houver algum erro durante a busca, uma mensagem de erro será exibida.
+
+1) Importações:
+
+import React, { useState } from 'react';
+
+Importa o React, necessário para escrever componentes React.
+Importa o useState do React, que é um Hook para adicionar estado a componentes funcionais.
+
+2) Definição do Componente BuscaDeFilmes:
+
+function BuscaDeFilmes() {
+Define uma função componente chamada BuscaDeFilmes.
+
+4) Estados Iniciais:
+
+const [query, setQuery] = useState('');
+const [filmes, setFilmes] = useState([]);
+const [erro, setErro] = useState('');
+
+Define três estados utilizando o useState:
+query: para armazenar o texto da consulta de busca inserido pelo usuário.
+filmes: para armazenar a lista de filmes encontrados na busca.
+erro: para armazenar mensagens de erro durante a busca.
+
+4) Função buscarFilmes para fazer a busca na API OMDb:
+
+const buscarFilmes = async () => {
+  try {
+    const response = await fetch(`http://www.omdbapi.com/?s=${query}&apikey=YOUR_API_KEY`);
+    const data = await response.json();
+    if (data.Response === 'True') {
+      setFilmes(data.Search);
+      setErro('');
+    } else {
+      setFilmes([]);
+      setErro(data.Error);
+    }
+  } catch (error) {
+    console.error('Erro ao buscar filmes:', error);
+    setErro('Erro ao buscar filmes. Por favor, tente novamente mais tarde.');
+  }
+};
+
+Define uma função assíncrona para buscar filmes na API OMDb.
+Utiliza fetch para fazer uma requisição GET à API OMDb, passando o texto da consulta de busca (query) e a chave da API.
+Converte a resposta para JSON.
+Se a resposta da API tiver sucesso (Response === 'True'), atualiza o estado filmes com a lista de filmes encontrados e limpa o estado erro.
+Se a resposta da API não tiver sucesso, atualiza o estado filmes para uma lista vazia e define a mensagem de erro no estado erro.
+
+5) Funções handleChange e handleSubmit para lidar com mudanças e envios do formulário de busca:
+
+const handleChange = (event) => {
+  setQuery(event.target.value);
+};
+
+const handleSubmit = (event) => {
+  event.preventDefault();
+  buscarFilmes();
+};
+
+handleChange: Atualiza o estado query com o valor do campo de entrada de texto toda vez que seu valor é alterado.
+handleSubmit: Chama a função buscarFilmes quando o formulário de busca é enviado (quando o usuário clica no botão de busca).
+
+6) Renderização do Componente:
+
+return (
+  <div>
+    {/* Elementos de interface da busca de filmes */}
+  </div>
+);
+
+
+Retorna o JSX que representa o componente BuscaDeFilmes.
+
+7) Elementos de Interface do Usuário:
+
+<input
+  type="text"
+  value={query}
+  onChange={handleChange}
+  placeholder="Digite o nome do filme"
+/>
+<button type="submit">Buscar</button>
+{erro && <p>{erro}</p>}
+{filmes.map((filme) => (
+  <div key={filme.imdbID}>
+    <h3>{filme.Title}</h3>
+    <img src={filme.Poster} alt={filme.Title} />
+  </div>
+))}
+
+Renderiza um formulário de busca com um campo de entrada de texto e um botão de busca.
+Exibe uma mensagem de erro se ocorrer um erro durante a busca.
+Mapeia a lista de filmes encontrados (filmes) e renderiza um <div> para cada filme, exibindo seu título e pôster.
+
+8) Exportação do Componente:
+
+export default BuscaDeFilmes;
+Exporta o componente BuscaDeFilmes para que ele possa ser importado e usado em outros arquivos.

@@ -1,0 +1,99 @@
+6) Galeria de Imagens:
+Construa uma galeria de imagens onde o usuário possa navegar entre diferentes fotos e visualizá-las em tela cheia.
+
+Aqui está um exemplo simples de código para um projeto de galeria de imagens em React.js:
+
+import React, { useState } from 'react';
+
+function GaleriaDeImagens() {
+  const [imagens, setImagens] = useState([
+    'https://via.placeholder.com/150',
+    'https://via.placeholder.com/150',
+    'https://via.placeholder.com/150'
+  ]);
+
+  const adicionarImagem = () => {
+    setImagens([...imagens, 'https://via.placeholder.com/150']);
+  };
+
+  return (
+    <div>
+      <h2>Galeria de Imagens</h2>
+      <div style={{ display: 'flex', flexWrap: 'wrap' }}>
+        {imagens.map((imagem, index) => (
+          <img key={index} src={imagem} alt={`Imagem ${index + 1}`} style={{ margin: '5px' }} />
+        ))}
+      </div>
+      <button onClick={adicionarImagem} style={{ marginTop: '10px' }}>Adicionar Imagem</button>
+    </div>
+  );
+}
+
+export default GaleriaDeImagens;
+
+Este código renderiza uma galeria de imagens com três imagens padrão e um botão "Adicionar Imagem" que permite ao usuário adicionar mais imagens à galeria. As imagens são exibidas em um layout de grade flexível usando CSS.
+
+
+1) Importações:
+
+import React, { useState } from 'react';
+
+Importa o React, necessário para escrever componentes React.
+Importa o useState do React, que é um Hook para adicionar estado a componentes funcionais.
+
+2) Definição do Componente GaleriaDeImagens:
+
+function GaleriaDeImagens() {
+
+Define uma função componente chamada GaleriaDeImagens.
+
+3) Estado Inicial:
+
+const [imagens, setImagens] = useState([
+  'https://via.placeholder.com/150',
+  'https://via.placeholder.com/150',
+  'https://via.placeholder.com/150'
+]);
+
+Define um estado utilizando o useState: imagens para armazenar a lista de URLs das imagens na galeria.
+Inicialmente, a galeria é preenchida com três URLs de imagens padrão.
+
+4) Função adicionarImagem para adicionar uma nova imagem à galeria:
+
+const adicionarImagem = () => {
+  setImagens([...imagens, 'https://via.placeholder.com/150']);
+};
+
+Define uma função para adicionar uma nova imagem à galeria.
+Utiliza o método setImagens para atualizar o estado imagens, adicionando uma nova URL de imagem à lista existente.
+
+5) Renderização do Componente:
+
+return (
+  <div>
+    {/* Elementos de interface da galeria */}
+  </div>
+);
+
+Retorna o JSX que representa o componente GaleriaDeImagens.
+
+6) Elementos de Interface do Usuário:
+
+<h2>Galeria de Imagens</h2>
+<div style={{ display: 'flex', flexWrap: 'wrap' }}>
+  {/* Mapeia cada URL de imagem para renderizar um elemento <img> */}
+</div>
+<button onClick={adicionarImagem} style={{ marginTop: '10px' }}>Adicionar Imagem</button>
+
+Renderiza um cabeçalho <h2> com o texto "Galeria de Imagens".
+Renderiza um <div> que contém as imagens da galeria.
+Utiliza o estilo CSS inline para aplicar um layout flexível (display: flex) e permitir que as imagens sejam exibidas em uma linha flexível com quebras de linha conforme necessário (flexWrap: wrap).
+Mapeia cada URL de imagem na lista imagens para renderizar um elemento <img> para cada uma delas.
+Renderiza um botão "Adicionar Imagem" que, quando clicado, chama a função adicionarImagem para adicionar uma nova imagem à galeria.
+
+7) Exportação do Componente:
+
+export default GaleriaDeImagens;
+
+Exporta o componente GaleriaDeImagens para que ele possa ser importado e usado em outros arquivos.
+

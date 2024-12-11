@@ -1,0 +1,190 @@
+9) Cronômetro:
+Construa um cronômetro simples que permita ao usuário iniciar, pausar e reiniciar a contagem do tempo.
+
+Aqui está um exemplo simples de código para um projeto de cronômetro em React.js:
+
+import React, { useState, useEffect } from 'react';
+
+function Cronometro() {
+  const [segundos, setSegundos] = useState(0);
+  const [minutos, setMinutos] = useState(0);
+  const [horas, setHoras] = useState(0);
+  const [iniciado, setIniciado] = useState(false);
+
+  useEffect(() => {
+    let intervalo;
+    if (iniciado) {
+      intervalo = setInterval(() => {
+        setSegundos((segundos) => segundos + 1);
+      }, 1000);
+    } else {
+      clearInterval(intervalo);
+    }
+    return () => clearInterval(intervalo);
+  }, [iniciado]);
+
+  const iniciarCronometro = () => {
+    setIniciado(true);
+  };
+
+  const pausarCronometro = () => {
+    setIniciado(false);
+  };
+
+  const zerarCronometro = () => {
+    setSegundos(0);
+    setMinutos(0);
+    setHoras(0);
+    setIniciado(false);
+  };
+
+  useEffect(() => {
+    if (segundos === 60) {
+      setSegundos(0);
+      setMinutos(minutos + 1);
+    }
+    if (minutos === 60) {
+      setMinutos(0);
+      setHoras(horas + 1);
+    }
+  }, [segundos, minutos, horas]);
+
+  return (
+    <div>
+      <h2>Cronômetro</h2>
+      <div>
+        <span>{horas < 10 ? `0${horas}` : horas}</span> :
+        <span>{minutos < 10 ? `0${minutos}` : minutos}</span> :
+        <span>{segundos < 10 ? `0${segundos}` : segundos}</span>
+      </div>
+      <div>
+        {!iniciado ? (
+          <button onClick={iniciarCronometro}>Iniciar</button>
+        ) : (
+          <button onClick={pausarCronometro}>Pausar</button>
+        )}
+        <button onClick={zerarCronometro}>Zerar</button>
+      </div>
+    </div>
+  );
+}
+
+export default Cronometro;
+
+Este código renderiza um cronômetro que exibe horas, minutos e segundos. Os botões "Iniciar" e "Pausar" controlam o início e a pausa do cronômetro, enquanto o botão "Zerar" redefine o cronômetro para 00:00:00.
+
+1) Importações:
+
+import React, { useState, useEffect } from 'react';
+Importa o React, necessário para escrever componentes React.
+Importa o useState e o useEffect do React, que são Hooks para adicionar estado e efeitos a componentes funcionais.
+
+2) Definição do Componente Cronometro:
+
+function Cronometro() {
+Define uma função componente chamada Cronometro.
+
+3) Estados Iniciais:
+
+const [segundos, setSegundos] = useState(0);
+const [minutos, setMinutos] = useState(0);
+const [horas, setHoras] = useState(0);
+const [iniciado, setIniciado] = useState(false);
+
+Define quatro estados utilizando o useState:
+segundos, minutos e horas: para armazenar os valores de segundos, minutos e horas do cronômetro.
+iniciado: para controlar se o cronômetro está em execução (iniciado) ou pausado.
+
+4) Efeito useEffect para atualizar os segundos:
+
+useEffect(() => {
+  let intervalo;
+  if (iniciado) {
+    intervalo = setInterval(() => {
+      setSegundos((segundos) => segundos + 1);
+    }, 1000);
+  } else {
+    clearInterval(intervalo);
+  }
+  return () => clearInterval(intervalo);
+}, [iniciado]);
+
+Utiliza um efeito para controlar o comportamento do cronômetro com base no estado iniciado.
+Se o cronômetro estiver iniciado, um intervalo é configurado para incrementar os segundos a cada segundo.
+Se o cronômetro estiver pausado, o intervalo é cancelado.
+O retorno da função de efeito limpa o intervalo quando o componente é desmontado ou quando o estado iniciado muda.
+
+5) Funções iniciarCronometro, pausarCronometro e zerarCronometro para controlar o cronômetro:
+
+const iniciarCronometro = () => {
+  setIniciado(true);
+};
+
+const pausarCronometro = () => {
+  setIniciado(false);
+};
+
+const zerarCronometro = () => {
+  setSegundos(0);
+  setMinutos(0);
+  setHoras(0);
+  setIniciado(false);
+};
+
+iniciarCronometro: Define o estado iniciado como verdadeiro para iniciar o cronômetro.
+pausarCronometro: Define o estado iniciado como falso para pausar o cronômetro.
+zerarCronometro: Zera todos os valores de segundos, minutos e horas, e define o estado iniciado como falso para reiniciar o cronômetro.
+
+6) Efeito useEffect para atualizar os minutos e as horas:
+
+useEffect(() => {
+  if (segundos === 60) {
+    setSegundos(0);
+    setMinutos(minutos + 1);
+  }
+  if (minutos === 60) {
+    setMinutos(0);
+    setHoras(horas + 1);
+  }
+}, [segundos, minutos, horas]);
+
+Utiliza um segundo efeito para atualizar os minutos e as horas com base nos segundos.
+Se os segundos atingirem 60, eles são redefinidos para 0 e os minutos são incrementados em 1.
+Se os minutos atingirem 60, eles são redefinidos para 0 e as horas são incrementadas em 1.
+Este efeito é disparado sempre que os estados segundos, minutos ou horas mudam.
+
+7) Renderização do Componente:
+
+return (
+  <div>
+    {/* Elementos de interface do cronômetro */}
+  </div>
+);
+
+Retorna o JSX que representa o componente Cronometro.
+
+8) Elementos de Interface do Usuário:
+
+<div>
+  <span>{horas < 10 ? `0${horas}` : horas}</span> :
+  <span>{minutos < 10 ? `0${minutos}` : minutos}</span> :
+  <span>{segundos < 10 ? `0${segundos}` : segundos}</span>
+</div>
+<div>
+  {!iniciado ? (
+    <button onClick={iniciarCronometro}>Iniciar</button>
+  ) : (
+    <button onClick={pausarCronometro}>Pausar</button>
+  )}
+  <button onClick={zerarCronometro}>Zerar</button>
+</div>
+
+Renderiza um elemento div que exibe as horas, minutos e segundos formatados.
+Renderiza botões "Iniciar" e "Pausar" que controlam o estado do cronômetro.
+Renderiza um botão "Zerar" que reinicia o cronômetro.
+
+9) Exportação do Componente:
+
+export default Cronometro;
+
+Exporta o componente Cronometro para que ele possa ser importado e usado em outros arquivos.

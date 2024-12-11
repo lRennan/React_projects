@@ -1,0 +1,182 @@
+10) Quiz de Perguntas e Respostas:
+Crie um quiz de perguntas e respostas sobre um tema específico, onde o usuário possa escolher uma resposta entre várias opções e receber feedback sobre sua escolha.
+
+Aqui está um exemplo simples de código para um projeto de quiz de perguntas e respostas em React.js:
+
+import React, { useState } from 'react';
+
+const perguntas = [
+  {
+    pergunta: 'Qual é a capital do Brasil?',
+    opcoes: ['Rio de Janeiro', 'São Paulo', 'Brasília', 'Belo Horizonte'],
+    resposta: 'Brasília'
+  },
+  {
+    pergunta: 'Quem descobriu o Brasil?',
+    opcoes: ['Pedro Álvares Cabral', 'Cristóvão Colombo', 'Vasco da Gama', 'Fernão de Magalhães'],
+    resposta: 'Pedro Álvares Cabral'
+  },
+  {
+    pergunta: 'Quantos planetas existem no sistema solar?',
+    opcoes: ['5', '7', '9', '8'],
+    resposta: '8'
+  }
+];
+
+function Quiz() {
+  const [indicePergunta, setIndicePergunta] = useState(0);
+  const [respostas, setRespostas] = useState([]);
+  const [resultado, setResultado] = useState(null);
+
+  const responder = (respostaSelecionada) => {
+    setRespostas([...respostas, respostaSelecionada]);
+    if (indicePergunta + 1 < perguntas.length) {
+      setIndicePergunta(indicePergunta + 1);
+    } else {
+      calcularResultado();
+    }
+  };
+
+  const calcularResultado = () => {
+    let pontuacao = 0;
+    for (let i = 0; i < perguntas.length; i++) {
+      if (respostas[i] === perguntas[i].resposta) {
+        pontuacao++;
+      }
+    }
+    setResultado(pontuacao);
+  };
+
+  const reiniciarQuiz = () => {
+    setIndicePergunta(0);
+    setRespostas([]);
+    setResultado(null);
+  };
+
+  return (
+    <div>
+      {resultado !== null ? (
+        <div>
+          <h2>Resultado do Quiz</h2>
+          <p>Você acertou {resultado} de {perguntas.length} perguntas!</p>
+          <button onClick={reiniciarQuiz}>Reiniciar Quiz</button>
+        </div>
+      ) : (
+        <div>
+          <h2>Pergunta {indicePergunta + 1}</h2>
+          <p>{perguntas[indicePergunta].pergunta}</p>
+          <ul>
+            {perguntas[indicePergunta].opcoes.map((opcao, index) => (
+              <li key={index} onClick={() => responder(opcao)}>
+                {opcao}
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+    </div>
+  );
+}
+
+export default Quiz;
+
+Este código renderiza um quiz de perguntas e respostas. Cada pergunta possui opções de resposta e apenas uma delas é correta. Após responder todas as perguntas, o usuário recebe o resultado e tem a opção de reiniciar o quiz.
+
+1) Importações:
+
+import React, { useState } from 'react';
+Importa o React, necessário para escrever componentes React.
+Importa o useState do React, que é um Hook para adicionar estado a componentes funcionais.
+
+2) Definição das Perguntas:
+
+const perguntas = [
+  {
+    pergunta: 'Qual é a capital do Brasil?',
+    opcoes: ['Rio de Janeiro', 'São Paulo', 'Brasília', 'Belo Horizonte'],
+    resposta: 'Brasília'
+  },
+  // Outras perguntas e respostas aqui...
+];
+Define um array de objetos que contém as perguntas, opções de resposta e a resposta correta para cada pergunta.
+
+3) Definição do Componente Quiz:
+
+function Quiz() {
+Define uma função componente chamada Quiz.
+
+4) Estados Iniciais:
+
+const [indicePergunta, setIndicePergunta] = useState(0);
+const [respostas, setRespostas] = useState([]);
+const [resultado, setResultado] = useState(null);
+
+Define três estados utilizando o useState:
+indicePergunta: para controlar o índice da pergunta atual.
+respostas: para armazenar as respostas dadas pelo usuário.
+resultado: para armazenar a pontuação do usuário no quiz.
+
+5) Função responder para responder às perguntas:
+
+const responder = (respostaSelecionada) => {
+  setRespostas([...respostas, respostaSelecionada]);
+  if (indicePergunta + 1 < perguntas.length) {
+    setIndicePergunta(indicePergunta + 1);
+  } else {
+    calcularResultado();
+  }
+};
+
+Define uma função para responder à pergunta atual.
+Adiciona a resposta selecionada ao array de respostas.
+Verifica se há mais perguntas para responder. Se sim, avança para a próxima pergunta. Se não, calcula o resultado final.
+
+6) Função calcularResultado para calcular a pontuação do usuário:
+
+const calcularResultado = () => {
+  let pontuacao = 0;
+  for (let i = 0; i < perguntas.length; i++) {
+    if (respostas[i] === perguntas[i].resposta) {
+      pontuacao++;
+    }
+  }
+  setResultado(pontuacao);
+};
+Define uma função para percorrer todas as perguntas e verificar se as respostas do usuário correspondem às respostas corretas.
+Incrementa a pontuação para cada resposta correta.
+Define o estado resultado com a pontuação final do usuário.
+
+7) Função reiniciarQuiz para reiniciar o quiz:
+
+const reiniciarQuiz = () => {
+  setIndicePergunta(0);
+  setRespostas([]);
+  setResultado(null);
+};
+
+Define uma função para reiniciar o estado do quiz, ou seja, voltar à primeira pergunta, limpar as respostas e o resultado.
+
+8) Renderização do Componente:
+
+return (
+  <div>
+    {/* Elementos de interface do quiz */}
+  </div>
+);
+Retorna o JSX que representa o componente Quiz.
+
+9) Elementos de Interface do Usuário:
+
+{resultado !== null ? (
+  {/* Renderiza o resultado do quiz */}
+) : (
+  {/* Renderiza a pergunta atual e as opções de resposta */}
+)}
+Se o resultado não for nulo, renderiza o resultado final do quiz e um botão para reiniciar o quiz.
+Se o resultado for nulo, renderiza a pergunta atual e as opções de resposta.
+
+10) Exportação do Componente:
+
+export default Quiz;
+
+Exporta o componente Quiz para que ele possa ser importado e usado em outros arquivos.
